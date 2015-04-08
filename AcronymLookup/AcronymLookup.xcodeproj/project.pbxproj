@@ -14,6 +14,8 @@
 		DAB3023F1AD4977200F9C0D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB3023E1AD4977200F9C0D4 /* Images.xcassets */; };
 		DAB3024E1AD4977200F9C0D4 /* AcronymLookupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3024D1AD4977200F9C0D4 /* AcronymLookupTests.m */; };
 		DAB302581AD4B52A00F9C0D4 /* InitialScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAB302571AD4B52A00F9C0D4 /* InitialScreen.xib */; };
+		DAB3025B1AD4E70900F9C0D4 /* ServiceFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3025A1AD4E70900F9C0D4 /* ServiceFacade.m */; };
+		DAB3025F1AD4F5E700F9C0D4 /* FTHTTPCodes.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,11 @@
 		DAB3024C1AD4977200F9C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAB3024D1AD4977200F9C0D4 /* AcronymLookupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AcronymLookupTests.m; sourceTree = "<group>"; };
 		DAB302571AD4B52A00F9C0D4 /* InitialScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialScreen.xib; sourceTree = "<group>"; };
+		DAB302591AD4E70900F9C0D4 /* ServiceFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceFacade.h; sourceTree = "<group>"; };
+		DAB3025A1AD4E70900F9C0D4 /* ServiceFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceFacade.m; sourceTree = "<group>"; };
+		DAB3025C1AD4E72E00F9C0D4 /* ServiceFacadeDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceFacadeDelegate.h; sourceTree = "<group>"; };
+		DAB3025D1AD4F5E700F9C0D4 /* FTHTTPCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTHTTPCodes.h; sourceTree = "<group>"; };
+		DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTHTTPCodes.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +88,15 @@
 		DAB3022D1AD4977200F9C0D4 /* AcronymLookup */ = {
 			isa = PBXGroup;
 			children = (
+				DAB3025D1AD4F5E700F9C0D4 /* FTHTTPCodes.h */,
+				DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */,
 				DAB302321AD4977200F9C0D4 /* AppDelegate.h */,
 				DAB302331AD4977200F9C0D4 /* AppDelegate.m */,
 				DAB302381AD4977200F9C0D4 /* ViewController.h */,
 				DAB302391AD4977200F9C0D4 /* ViewController.m */,
+				DAB302591AD4E70900F9C0D4 /* ServiceFacade.h */,
+				DAB3025A1AD4E70900F9C0D4 /* ServiceFacade.m */,
+				DAB3025C1AD4E72E00F9C0D4 /* ServiceFacadeDelegate.h */,
 				DAB302571AD4B52A00F9C0D4 /* InitialScreen.xib */,
 				DAB3023E1AD4977200F9C0D4 /* Images.xcassets */,
 				DAB302351AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld */,
@@ -218,9 +230,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAB3025F1AD4F5E700F9C0D4 /* FTHTTPCodes.m in Sources */,
 				DAB302341AD4977200F9C0D4 /* AppDelegate.m in Sources */,
 				DAB302311AD4977200F9C0D4 /* main.m in Sources */,
 				DAB3023A1AD4977200F9C0D4 /* ViewController.m in Sources */,
+				DAB3025B1AD4E70900F9C0D4 /* ServiceFacade.m in Sources */,
 				DAB302371AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "ServiceFacade.h"
 
 @interface AcronymBrowswer : UITableViewController<UISearchBarDelegate>
 @end
@@ -49,26 +49,53 @@
   return cell;
 }
 
+
+#pragma mark - 
+
+-(void) _startShowingProgress {
+  // Some developers may frown upon this as a `hack`, however, this approach
+  // has a number of advantages and there is a way to
+  // mitigate its shortcomings through checking for protocol conformance
+  // in responder chain...
+
+  [[UIApplication sharedApplication] sendAction:@selector(startShowingProgress)
+                                             to:nil
+                                           from:self
+                                       forEvent:nil];
+}
+
+-(void) _finishShowingProgress {
+  [[UIApplication sharedApplication] sendAction:@selector(finishShowingProgress)
+                                             to:nil
+                                           from:self
+                                       forEvent:nil];
+}
+
+
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
   [searchBar resignFirstResponder];
+  
+  
+  if (searchBar.text.length > 0) {
+    [self _startShowingProgress];
+    [[ServiceFacade instance] lookupAcronym:searchBar.text
+                               withCallback:^(NSArray *longForms, NSError *error) {
+                                 [self _finishShowingProgress];
+                               }];
+  }
 }
 
 #pragma mark - Actions
 
 -(void) refreshButtonAction:(id)sender {
   
-  // Some developers may view this as a hack or bad coding practices.
-  // However, this approach has a number of advantages and there is a way to
-  // mitigate its shortcomings through checking for protocol conformance
-  // in responder chain...
   
-  [[UIApplication sharedApplication] sendAction:@selector(startShowingProgress)
-                                             to:nil
-                                           from:self
-                                       forEvent:nil];
+  
+  
+
 }
 
 @end
@@ -112,7 +139,7 @@
   [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
   [_indicator stopAnimating];
   [_indicator sendSubviewToBack:self.view];
-    [_navController.navigationBar setUserInteractionEnabled:YES];
+  [_navController.navigationBar setUserInteractionEnabled:YES];
 }
 
 - (void)viewDidLoad {
@@ -142,9 +169,6 @@
   [self.view addSubview:_navController.view];
   
   [self configureActivityIndicator];
-  
-  
-
 }
 
 //- (void)didReceiveMemoryWarning {
