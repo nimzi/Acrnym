@@ -9,15 +9,36 @@
 #import "ViewController.h"
 
 
-@interface AcronymBrowswer : UITableViewController {
-
-}
+@interface AcronymBrowswer : UITableViewController<UISearchBarDelegate>
 @end
 
 @implementation AcronymBrowswer
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView { return 1; }
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    
+    // In a real app we would localize string constants
+    searchBar.placeholder = @"Enter an acronym";
+    searchBar.delegate = self;
+    self.navigationItem.titleView = searchBar;
+    
+    SEL action = @selector(refreshButtonAction:);
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:action];
+    self.navigationItem.rightBarButtonItem = refreshButton;
+  
+  }
+  
+  return self;
+}
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView { return 1; }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return 15;
 }
@@ -27,6 +48,29 @@
   cell.textLabel.text = @(indexPath.row).description;
   return cell;
 }
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+  [searchBar resignFirstResponder];
+}
+
+#pragma mark - Actions
+
+-(void) refreshButtonAction:(id)sender {
+  
+  // Some developers may view this as a hack or bad coding practices.
+  // However, this approach has a number of advantages and there is a way to
+  // mitigate its shortcomings through checking for protocol conformance
+  // in responder chain...
+  
+  [[UIApplication sharedApplication] sendAction:@selector(startShowingProgress)
+                                             to:nil
+                                           from:self
+                                       forEvent:nil];
+}
+
 @end
 
 
@@ -34,10 +78,47 @@
 @interface ViewController() <UISearchBarDelegate>
 @end
 
-@implementation ViewController
+@implementation ViewController {
+    UIActivityIndicatorView* _indicator;
+}
+
+#pragma mark - Busy indicator management
+
+- (void) configureActivityIndicator {
+  _indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+  _indicator.color = self.view.tintColor;
+  _indicator.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+  
+  _indicator.frame = CGRectMake(0.0, 0.0, 100.0, 100.0);
+  _indicator.layer.masksToBounds = YES;
+  _indicator.layer.cornerRadius = 10;
+  _indicator.center = self.view.center;
+  [self.view addSubview:_indicator];
+
+}
+
+// Called through nil-targeted action mechanism
+- (IBAction) startShowingProgress
+{
+  [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+  [_indicator startAnimating];
+  [_indicator bringSubviewToFront:self.view];
+  [_navController.navigationBar setUserInteractionEnabled:NO];
+}
+
+// Called through nil-targeted action mechanism
+- (IBAction) finishShowingProgress {
+  [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+  [_indicator stopAnimating];
+  [_indicator sendSubviewToBack:self.view];
+    [_navController.navigationBar setUserInteractionEnabled:YES];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+//  [self startShowingProgress];
   
   UIViewController* vc = [UIViewController new];
   UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
@@ -56,9 +137,13 @@
 
   [vc.view addSubview:button];
   
-  _tableController = [UITableViewController new];
+  _tableController = [AcronymBrowswer new];
   _navController = [[UINavigationController alloc] initWithRootViewController:vc];
   [self.view addSubview:_navController.view];
+  
+  [self configureActivityIndicator];
+  
+  
 
 }
 
@@ -69,6 +154,14 @@
 
 -(IBAction)next:(id)sender {
   [_navController pushViewController:_tableController animated:YES];
+  
+  
+//  _indicator.center = self.view.center;  
+//  if (_indicator.isAnimating)
+//    [self finishShowingProgress];
+//  else
+//    [self startShowingProgress];
+  
 }
 
 #pragma mark -
