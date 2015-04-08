@@ -16,6 +16,10 @@
 		DAB302581AD4B52A00F9C0D4 /* InitialScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAB302571AD4B52A00F9C0D4 /* InitialScreen.xib */; };
 		DAB3025B1AD4E70900F9C0D4 /* ServiceFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3025A1AD4E70900F9C0D4 /* ServiceFacade.m */; };
 		DAB3025F1AD4F5E700F9C0D4 /* FTHTTPCodes.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */; };
+		DAB302621AD5A3C600F9C0D4 /* Stat.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB302611AD5A3C600F9C0D4 /* Stat.m */; };
+		DAB302651AD5A3C700F9C0D4 /* LongForm.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB302641AD5A3C700F9C0D4 /* LongForm.m */; };
+		DAB3026D1AD5A73A00F9C0D4 /* Acronym.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3026C1AD5A73A00F9C0D4 /* Acronym.m */; };
+		DAB3026F1AD5A88500F9C0D4 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3026E1AD5A88500F9C0D4 /* Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +49,16 @@
 		DAB302591AD4E70900F9C0D4 /* ServiceFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceFacade.h; sourceTree = "<group>"; };
 		DAB3025A1AD4E70900F9C0D4 /* ServiceFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceFacade.m; sourceTree = "<group>"; };
 		DAB3025C1AD4E72E00F9C0D4 /* ServiceFacadeDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceFacadeDelegate.h; sourceTree = "<group>"; };
-		DAB3025D1AD4F5E700F9C0D4 /* FTHTTPCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTHTTPCodes.h; sourceTree = "<group>"; };
-		DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTHTTPCodes.m; sourceTree = "<group>"; };
+		DAB3025D1AD4F5E700F9C0D4 /* FTHTTPCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTHTTPCodes.h; path = AcronymLookup/FTHTTPCodes.h; sourceTree = "<group>"; };
+		DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTHTTPCodes.m; path = AcronymLookup/FTHTTPCodes.m; sourceTree = "<group>"; };
+		DAB302601AD5A3C600F9C0D4 /* Stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stat.h; path = AcronymLookup/models/Stat.h; sourceTree = "<group>"; };
+		DAB302611AD5A3C600F9C0D4 /* Stat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stat.m; path = AcronymLookup/models/Stat.m; sourceTree = "<group>"; };
+		DAB302631AD5A3C700F9C0D4 /* LongForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LongForm.h; path = AcronymLookup/models/LongForm.h; sourceTree = "<group>"; };
+		DAB302641AD5A3C700F9C0D4 /* LongForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LongForm.m; path = AcronymLookup/models/LongForm.m; sourceTree = "<group>"; };
+		DAB3026B1AD5A73A00F9C0D4 /* Acronym.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Acronym.h; path = AcronymLookup/models/Acronym.h; sourceTree = "<group>"; };
+		DAB3026C1AD5A73A00F9C0D4 /* Acronym.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Acronym.m; path = AcronymLookup/models/Acronym.m; sourceTree = "<group>"; };
+		DAB3026E1AD5A88500F9C0D4 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		DAB302701AD5A8AB00F9C0D4 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +82,10 @@
 		DAB302221AD4977100F9C0D4 = {
 			isa = PBXGroup;
 			children = (
-				DAB3022D1AD4977200F9C0D4 /* AcronymLookup */,
-				DAB3024A1AD4977200F9C0D4 /* AcronymLookupTests */,
+				DAB3026A1AD5A42E00F9C0D4 /* Models */,
+				DAB302691AD5A41A00F9C0D4 /* Third party */,
+				DAB3022D1AD4977200F9C0D4 /* Core */,
+				DAB3024A1AD4977200F9C0D4 /* Tests */,
 				DAB3022C1AD4977200F9C0D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,11 +99,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DAB3022D1AD4977200F9C0D4 /* AcronymLookup */ = {
+		DAB3022D1AD4977200F9C0D4 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				DAB3025D1AD4F5E700F9C0D4 /* FTHTTPCodes.h */,
-				DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */,
+				DAB302701AD5A8AB00F9C0D4 /* Utilities.h */,
+				DAB3026E1AD5A88500F9C0D4 /* Utilities.m */,
 				DAB302321AD4977200F9C0D4 /* AppDelegate.h */,
 				DAB302331AD4977200F9C0D4 /* AppDelegate.m */,
 				DAB302381AD4977200F9C0D4 /* ViewController.h */,
@@ -102,6 +116,7 @@
 				DAB302351AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld */,
 				DAB3022E1AD4977200F9C0D4 /* Supporting Files */,
 			);
+			name = Core;
 			path = AcronymLookup;
 			sourceTree = "<group>";
 		};
@@ -114,12 +129,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DAB3024A1AD4977200F9C0D4 /* AcronymLookupTests */ = {
+		DAB3024A1AD4977200F9C0D4 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				DAB3024D1AD4977200F9C0D4 /* AcronymLookupTests.m */,
 				DAB3024B1AD4977200F9C0D4 /* Supporting Files */,
 			);
+			name = Tests;
 			path = AcronymLookupTests;
 			sourceTree = "<group>";
 		};
@@ -129,6 +145,28 @@
 				DAB3024C1AD4977200F9C0D4 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DAB302691AD5A41A00F9C0D4 /* Third party */ = {
+			isa = PBXGroup;
+			children = (
+				DAB3025D1AD4F5E700F9C0D4 /* FTHTTPCodes.h */,
+				DAB3025E1AD4F5E700F9C0D4 /* FTHTTPCodes.m */,
+			);
+			name = "Third party";
+			sourceTree = "<group>";
+		};
+		DAB3026A1AD5A42E00F9C0D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DAB3026B1AD5A73A00F9C0D4 /* Acronym.h */,
+				DAB3026C1AD5A73A00F9C0D4 /* Acronym.m */,
+				DAB302631AD5A3C700F9C0D4 /* LongForm.h */,
+				DAB302641AD5A3C700F9C0D4 /* LongForm.m */,
+				DAB302601AD5A3C600F9C0D4 /* Stat.h */,
+				DAB302611AD5A3C600F9C0D4 /* Stat.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,9 +268,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAB3026D1AD5A73A00F9C0D4 /* Acronym.m in Sources */,
 				DAB3025F1AD4F5E700F9C0D4 /* FTHTTPCodes.m in Sources */,
+				DAB302651AD5A3C700F9C0D4 /* LongForm.m in Sources */,
 				DAB302341AD4977200F9C0D4 /* AppDelegate.m in Sources */,
+				DAB3026F1AD5A88500F9C0D4 /* Utilities.m in Sources */,
 				DAB302311AD4977200F9C0D4 /* main.m in Sources */,
+				DAB302621AD5A3C600F9C0D4 /* Stat.m in Sources */,
 				DAB3023A1AD4977200F9C0D4 /* ViewController.m in Sources */,
 				DAB3025B1AD4E70900F9C0D4 /* ServiceFacade.m in Sources */,
 				DAB302371AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld in Sources */,
