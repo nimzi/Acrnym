@@ -12,11 +12,12 @@
 
 @class LongForm;
 
-@interface Acronym : Stat
+@interface Acronym : NSManagedObject
 @property (nonatomic, retain) NSString* shortForm;
 @property (nonatomic, retain) NSSet* longForms;
 
--(void)hydrateFromJSON:(id)json;
+-(void)hydrateFromEntityData:(NSDictionary*)dict;
++(NSString*)entityName;
 @end
 
 @interface Acronym (CoreDataGeneratedAccessors)

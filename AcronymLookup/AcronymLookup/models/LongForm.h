@@ -14,5 +14,6 @@
 @property (nonatomic, retain) NSManagedObject* acronym;
 @property (nonatomic, retain) NSString* longForm;
 
--(void)hydrateFromJSON:(id)json;
+-(void)hydrateFromEntityData:(NSDictionary*)dict;
++(NSString*)entityName;
 @end

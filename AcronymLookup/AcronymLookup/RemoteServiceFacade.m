@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Paul Agron. All rights reserved.
 //
 
-#import "ServiceFacade.h"
+#import "RemoteServiceFacade.h"
 #import "FTHTTPCodes.h"
 #include <iso646.h>
 
@@ -101,18 +101,16 @@
 
 typedef void (^CompletionHandlerType)(NSURLResponse* response, NSData *data, NSError* connectionError);
 
-@interface ServiceFacade()
+@interface RemoteServiceFacade()
 @property BOOL busy;
 @property (strong) typeof(NSOperationQueue*) queue;
 @property (strong, readonly) NSString* serviceUrl;
 @property (readonly) NSTimeInterval timeoutIntervalForSingleQuery;
-//@property (readonly) NSTimeInterval timeoutIntervalForDetail;
-//@property (readonly) NSTimeInterval timeoutIntervalForImages;
 @end
 
-@implementation ServiceFacade
+@implementation RemoteServiceFacade
 +(instancetype) instance {
-  static ServiceFacade* shared = nil;
+  static RemoteServiceFacade* shared = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     shared = [[self alloc] init];
@@ -145,7 +143,7 @@ typedef void (^CompletionHandlerType)(NSURLResponse* response, NSData *data, NSE
 
 static NSError* error(NSInteger code, NSString* message) {
   id info = @{@"message":message};
-  id domain = [[ServiceFacade class] description];
+  id domain = [[RemoteServiceFacade class] description];
   return [NSError errorWithDomain:domain code:code userInfo:info];
 }
 
@@ -168,7 +166,7 @@ static NSError* error(NSInteger code, NSString* message) {
       __strong typeof(weakSelf) strongSelf = weakSelf;
       if (strongSelf) {
         if (connectionError) {
-          dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, connectionError); });
+          dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, connectionError); });
         } else {
           NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
           NSInteger responseStatusCode = [httpResponse statusCode];
@@ -180,7 +178,7 @@ static NSError* error(NSInteger code, NSString* message) {
             
             
             NSError* err = error(101, [FTHTTPCodes descriptionForCode:responseStatusCode]);
-            dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, err); });
+            dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, err); });
             
           } else {
             NSError* parsingError = nil;
@@ -191,23 +189,22 @@ static NSError* error(NSInteger code, NSString* message) {
             if (parsingError or json == nil or not [json isKindOfClass:[NSArray class]]) {
               NSLog(@"WARNING: Inconsistend format");
               NSError* err = error(102, @"Inconsistend data format");
-              dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, err); });
+              dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, err); });
             } else {
               if (not (json.count > 0)) {
                 NSLog(@"WARNING: Empty manifest");
                 NSError* err = error(103, @"Empty manifest");
-                dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, err); });
+                dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, err); });
               } else {
                 //NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 //NSLog(@"%@", str);
                 
+                // extracting short form name
+                NSString* sf = json[0][@"sf"];
+
                 // an array of long forms
                 NSArray* longForms = json[0][@"lfs"];
-                for (NSDictionary* form in longForms) {
-                  NSLog(@"long form: %@", form[@"lf"]);
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{ callback(longForms, nil); });
+                dispatch_async(dispatch_get_main_queue(), ^{ callback(sf, longForms, nil); });
               }
             }
           }

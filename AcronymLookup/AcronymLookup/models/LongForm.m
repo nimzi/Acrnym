@@ -14,8 +14,10 @@
 @dynamic acronym;
 @dynamic longForm;
 
--(void)hydrateFromJSON:(id)json {
-  
+-(void)hydrateFromEntityData:(NSDictionary*)dict {
+  [super hydrateFromEntityData:dict];
+  self.longForm = dict[@"lf"];
 }
 
++(NSString*)entityName { return @"LongForm"; }
 @end

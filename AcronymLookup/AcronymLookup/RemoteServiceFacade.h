@@ -11,9 +11,9 @@
 
 // longForms is an array of deserialized JSON
 // the callback will asways happen on main queue
-typedef void (^LookupCallbackType)(NSArray* longForms, NSError* error);
+typedef void (^LookupCallbackType)(NSString* shortForm, NSArray* longForms, NSError* error);
 
-@interface ServiceFacade : NSObject
+@interface RemoteServiceFacade : NSObject
 @property (weak, nonatomic) id<ServiceFacadeDelegate> delegate;
 -(BOOL) isBusy;
 +(instancetype) instance;

@@ -15,8 +15,10 @@
 @dynamic shortForm;
 @dynamic longForms;
 
--(void)hydrateFromJSON:(id)json {
-  [super hydrateFromJSON:json];
+-(void)hydrateFromEntityData:(NSDictionary*)dict {
+  self.shortForm = dict[@"sf"];
 }
+
++(NSString*)entityName { return @"Acronym"; }
 
 @end

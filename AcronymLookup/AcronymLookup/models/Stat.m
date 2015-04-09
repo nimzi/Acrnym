@@ -14,8 +14,9 @@
 @dynamic since;
 @dynamic frequency;
 
--(void)hydrateFromJSON:(id)json {
-  
+-(void)hydrateFromEntityData:(NSDictionary*)dict {
+  self.since = dict[@"since"];
+  self.frequency = dict[@"frequency"];
 }
 
 @end

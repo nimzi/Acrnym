@@ -15,6 +15,6 @@
 @property (nonatomic, retain) NSNumber* since;
 @property (nonatomic, retain) NSNumber* frequency;
 
--(void)hydrateFromJSON:(id)json;
+-(void)hydrateFromEntityData:(NSDictionary*)dict;
 
 @end

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Acronym" representedClassName="Acronym" parentEntity="Stat" syncable="YES">
-        <attribute name="shortForm" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Acronym" representedClassName="Acronym" syncable="YES">
+        <attribute name="shortForm" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="longForms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LongForm" inverseName="acronym" inverseEntity="LongForm" syncable="YES"/>
     </entity>
     <entity name="LongForm" representedClassName="LongForm" parentEntity="Stat" syncable="YES">
-        <attribute name="longForm" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longForm" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="acronym" maxCount="1" deletionRule="Nullify" destinationEntity="Acronym" inverseName="longForms" inverseEntity="Acronym" syncable="YES"/>
     </entity>
     <entity name="Stat" representedClassName="Stat" isAbstract="YES" syncable="YES">

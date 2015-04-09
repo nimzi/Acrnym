@@ -7,7 +7,9 @@
 //
 
 #import "ViewController.h"
-#import "ServiceFacade.h"
+#import "RemoteServiceFacade.h"
+#import "DataController.h"
+#import <iso646.h>
 
 @interface AcronymBrowswer : UITableViewController<UISearchBarDelegate>
 @end
@@ -28,11 +30,11 @@
     
     SEL action = @selector(refreshButtonAction:);
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh"
-                                                                  style:UIBarButtonItemStylePlain
-                                                                 target:self
-                                                                 action:action];
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:action];
     self.navigationItem.rightBarButtonItem = refreshButton;
-  
+    
   }
   
   return self;
@@ -50,14 +52,14 @@
 }
 
 
-#pragma mark - 
+#pragma mark -
 
 -(void) _startShowingProgress {
   // Some developers may frown upon this as a `hack`, however, this approach
   // has a number of advantages and there is a way to
   // mitigate its shortcomings through checking for protocol conformance
   // in responder chain...
-
+  
   [[UIApplication sharedApplication] sendAction:@selector(startShowingProgress)
                                              to:nil
                                            from:self
@@ -81,10 +83,32 @@
   
   if (searchBar.text.length > 0) {
     [self _startShowingProgress];
-    [[ServiceFacade instance] lookupAcronym:searchBar.text
-                               withCallback:^(NSArray *longForms, NSError *error) {
-                                 [self _finishShowingProgress];
-                               }];
+    [[RemoteServiceFacade instance] lookupAcronym:searchBar.text
+                                     withCallback:^(NSString* sf, NSArray *longForms, NSError *error) {
+                                       NSLog(@"RECEIVED LOOKUP");
+                                       NSLog(@"-----------------");
+                                       NSLog(@"short form: %@", sf);
+                                       
+                                       for (NSDictionary* form in longForms) {
+                                         NSLog(@"long form: %@", form[@"lf"]);
+                                       }
+                                       
+                                       if (sf.length > 0) {
+                                         Acronym* anm = [[DataController instance] upsertAcromym:sf];
+                                         for (NSDictionary* dict in longForms) {
+                                           NSString* name = dict[@"lf"];
+                                           if (nil != name)
+                                             [[DataController instance] upsertLongFrom:name
+                                                                            forAcronym:anm
+                                                                            entityData:dict];
+                                         }
+                                         
+                                       }
+                                       
+                                       [[DataController instance] saveContext];
+                                       
+                                       [self _finishShowingProgress];
+                                     }];
   }
 }
 
@@ -95,7 +119,7 @@
   
   
   
-
+  
 }
 
 @end
@@ -106,7 +130,7 @@
 @end
 
 @implementation ViewController {
-    UIActivityIndicatorView* _indicator;
+  UIActivityIndicatorView* _indicator;
 }
 
 #pragma mark - Busy indicator management
@@ -122,7 +146,7 @@
   _indicator.layer.cornerRadius = 10;
   _indicator.center = self.view.center;
   [self.view addSubview:_indicator];
-
+  
 }
 
 // Called through nil-targeted action mechanism
@@ -145,7 +169,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-//  [self startShowingProgress];
+  //  [self startShowingProgress];
   
   UIViewController* vc = [UIViewController new];
   UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
@@ -161,7 +185,7 @@
   
   [button setTitle:@"Show View" forState:UIControlStateNormal];
   button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-
+  
   [vc.view addSubview:button];
   
   _tableController = [AcronymBrowswer new];
@@ -180,11 +204,11 @@
   [_navController pushViewController:_tableController animated:YES];
   
   
-//  _indicator.center = self.view.center;  
-//  if (_indicator.isAnimating)
-//    [self finishShowingProgress];
-//  else
-//    [self startShowingProgress];
+  //  _indicator.center = self.view.center;
+  //  if (_indicator.isAnimating)
+  //    [self finishShowingProgress];
+  //  else
+  //    [self startShowingProgress];
   
 }
 
