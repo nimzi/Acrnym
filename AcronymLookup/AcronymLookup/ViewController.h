@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Paul Agron. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface ViewController : UIViewController
+#import "ProgressManaging.h"
+
+@interface ViewController : UIViewController<ProgressManaging>
 @property (nonatomic) UINavigationController* navController;
 @property (nonatomic) UITableViewController* tableController;
 @end

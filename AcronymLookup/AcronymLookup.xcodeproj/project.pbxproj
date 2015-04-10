@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA3AC5F91AD7547C00929E74 /* AcronymBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC5F81AD7547C00929E74 /* AcronymBrowser.m */; };
 		DAB302311AD4977200F9C0D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB302301AD4977200F9C0D4 /* main.m */; };
 		DAB302341AD4977200F9C0D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB302331AD4977200F9C0D4 /* AppDelegate.m */; };
 		DAB302371AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB302351AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld */; };
@@ -34,14 +35,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA3AC5F71AD7547C00929E74 /* AcronymBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AcronymBrowser.h; path = AcronymLookup/AcronymBrowser.h; sourceTree = "<group>"; };
+		DA3AC5F81AD7547C00929E74 /* AcronymBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AcronymBrowser.m; path = AcronymLookup/AcronymBrowser.m; sourceTree = "<group>"; };
+		DA3AC5FB1AD77C7D00929E74 /* ProgressManaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressManaging.h; sourceTree = "<group>"; };
 		DAB3022B1AD4977200F9C0D4 /* AcronymLookup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AcronymLookup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB3022F1AD4977200F9C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAB302301AD4977200F9C0D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DAB302321AD4977200F9C0D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DAB302331AD4977200F9C0D4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DAB302361AD4977200F9C0D4 /* AcronymLookup.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AcronymLookup.xcdatamodel; sourceTree = "<group>"; };
-		DAB302381AD4977200F9C0D4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DAB302391AD4977200F9C0D4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DAB302381AD4977200F9C0D4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = AcronymLookup/ViewController.h; sourceTree = "<group>"; };
+		DAB302391AD4977200F9C0D4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = AcronymLookup/ViewController.m; sourceTree = "<group>"; };
 		DAB3023E1AD4977200F9C0D4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DAB302471AD4977200F9C0D4 /* AcronymLookupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AcronymLookupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB3024C1AD4977200F9C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,9 +86,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA3AC5FA1AD7548A00929E74 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC5F71AD7547C00929E74 /* AcronymBrowser.h */,
+				DA3AC5F81AD7547C00929E74 /* AcronymBrowser.m */,
+				DAB302381AD4977200F9C0D4 /* ViewController.h */,
+				DAB302391AD4977200F9C0D4 /* ViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		DAB302221AD4977100F9C0D4 = {
 			isa = PBXGroup;
 			children = (
+				DA3AC5FA1AD7548A00929E74 /* ViewControllers */,
 				DAB3026A1AD5A42E00F9C0D4 /* Models */,
 				DAB302691AD5A41A00F9C0D4 /* Third party */,
 				DAB3022D1AD4977200F9C0D4 /* Core */,
@@ -105,14 +121,13 @@
 		DAB3022D1AD4977200F9C0D4 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				DA3AC5FB1AD77C7D00929E74 /* ProgressManaging.h */,
 				DAB302701AD5A8AB00F9C0D4 /* Utilities.h */,
 				DAB302711AD5AF9F00F9C0D4 /* DataController.h */,
 				DAB302721AD5AF9F00F9C0D4 /* DataController.m */,
 				DAB3026E1AD5A88500F9C0D4 /* Utilities.m */,
 				DAB302321AD4977200F9C0D4 /* AppDelegate.h */,
 				DAB302331AD4977200F9C0D4 /* AppDelegate.m */,
-				DAB302381AD4977200F9C0D4 /* ViewController.h */,
-				DAB302391AD4977200F9C0D4 /* ViewController.m */,
 				DAB302591AD4E70900F9C0D4 /* RemoteServiceFacade.h */,
 				DAB3025A1AD4E70900F9C0D4 /* RemoteServiceFacade.m */,
 				DAB3025C1AD4E72E00F9C0D4 /* ServiceFacadeDelegate.h */,
@@ -273,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA3AC5F91AD7547C00929E74 /* AcronymBrowser.m in Sources */,
 				DAB3026D1AD5A73A00F9C0D4 /* Acronym.m in Sources */,
 				DAB3025F1AD4F5E700F9C0D4 /* FTHTTPCodes.m in Sources */,
 				DAB302651AD5A3C700F9C0D4 /* LongForm.m in Sources */,
@@ -457,6 +473,7 @@
 				DAB302531AD4977200F9C0D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DAB302541AD4977200F9C0D4 /* Build configuration list for PBXNativeTarget "AcronymLookupTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +482,7 @@
 				DAB302561AD4977200F9C0D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

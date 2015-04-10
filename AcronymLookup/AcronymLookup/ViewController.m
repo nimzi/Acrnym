@@ -9,120 +9,9 @@
 #import "ViewController.h"
 #import "RemoteServiceFacade.h"
 #import "DataController.h"
+#import "AcronymBrowser.h"
 #import <iso646.h>
 
-@interface AcronymBrowswer : UITableViewController<UISearchBarDelegate>
-@end
-
-@implementation AcronymBrowswer
-
-- (instancetype)init
-{
-  self = [super init];
-  if (self) {
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-    
-    // In a real app we would localize string constants
-    searchBar.placeholder = @"Enter an acronym";
-    searchBar.delegate = self;
-    self.navigationItem.titleView = searchBar;
-    
-    SEL action = @selector(refreshButtonAction:);
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh"
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:action];
-    self.navigationItem.rightBarButtonItem = refreshButton;
-    
-  }
-  
-  return self;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView { return 1; }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 15;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-  cell.textLabel.text = @(indexPath.row).description;
-  return cell;
-}
-
-
-#pragma mark -
-
--(void) _startShowingProgress {
-  // Some developers may frown upon this as a `hack`, however, this approach
-  // has a number of advantages and there is a way to
-  // mitigate its shortcomings through checking for protocol conformance
-  // in responder chain...
-  
-  [[UIApplication sharedApplication] sendAction:@selector(startShowingProgress)
-                                             to:nil
-                                           from:self
-                                       forEvent:nil];
-}
-
--(void) _finishShowingProgress {
-  [[UIApplication sharedApplication] sendAction:@selector(finishShowingProgress)
-                                             to:nil
-                                           from:self
-                                       forEvent:nil];
-}
-
-
-#pragma mark - UISearchBarDelegate
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-  [searchBar resignFirstResponder];
-  
-  
-  if (searchBar.text.length > 0) {
-    [self _startShowingProgress];
-    [[RemoteServiceFacade instance] lookupAcronym:searchBar.text
-                                     withCallback:^(NSString* sf, NSArray *longForms, NSError *error) {
-                                       NSLog(@"RECEIVED LOOKUP");
-                                       NSLog(@"-----------------");
-                                       NSLog(@"short form: %@", sf);
-                                       
-                                       for (NSDictionary* form in longForms) {
-                                         NSLog(@"long form: %@", form[@"lf"]);
-                                       }
-                                       
-                                       if (sf.length > 0) {
-                                         Acronym* anm = [[DataController instance] upsertAcromym:sf];
-                                         for (NSDictionary* dict in longForms) {
-                                           NSString* name = dict[@"lf"];
-                                           if (nil != name)
-                                             [[DataController instance] upsertLongFrom:name
-                                                                            forAcronym:anm
-                                                                            entityData:dict];
-                                         }
-                                         
-                                       }
-                                       
-                                       [[DataController instance] saveContext];
-                                       
-                                       [self _finishShowingProgress];
-                                     }];
-  }
-}
-
-#pragma mark - Actions
-
--(void) refreshButtonAction:(id)sender {
-  
-  
-  
-  
-  
-}
-
-@end
 
 
 
@@ -150,7 +39,7 @@
 }
 
 // Called through nil-targeted action mechanism
-- (IBAction) startShowingProgress
+- (void) startShowingProgress
 {
   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
   [_indicator startAnimating];
@@ -159,7 +48,7 @@
 }
 
 // Called through nil-targeted action mechanism
-- (IBAction) finishShowingProgress {
+- (void) finishShowingProgress {
   [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
   [_indicator stopAnimating];
   [_indicator sendSubviewToBack:self.view];
@@ -168,37 +57,12 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  //  [self startShowingProgress];
-  
-  UIViewController* vc = [UIViewController new];
-  UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-  searchBar.placeholder = @"Please enter an acronym";
-  searchBar.delegate = self;
-  vc.navigationItem.titleView = searchBar;
-  vc.view.backgroundColor = [UIColor redColor];
-  UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-  
-  [button addTarget:self
-             action:@selector(next:)
-   forControlEvents:UIControlEventTouchUpInside];
-  
-  [button setTitle:@"Show View" forState:UIControlStateNormal];
-  button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-  
-  [vc.view addSubview:button];
-  
   _tableController = [AcronymBrowswer new];
-  _navController = [[UINavigationController alloc] initWithRootViewController:vc];
+  _navController = [[UINavigationController alloc] initWithRootViewController:_tableController];
   [self.view addSubview:_navController.view];
-  
   [self configureActivityIndicator];
 }
 
-//- (void)didReceiveMemoryWarning {
-//  [super didReceiveMemoryWarning];
-//  // Dispose of any resources that can be recreated.
-//}
 
 -(IBAction)next:(id)sender {
   [_navController pushViewController:_tableController animated:YES];
@@ -212,24 +76,5 @@
   
 }
 
-#pragma mark -
-
-//- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar;                      // return NO to not become first responder
-//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar;                     // called when text starts editing
-//- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar;                        // return NO to not resign first responder
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-  
-  NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText;   // called when text changes (including clear)
-//- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text NS_AVAILABLE_IOS(3_0); // called before text changes
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-  [searchBar resignFirstResponder];
-  NSLog(@"%s", __PRETTY_FUNCTION__);
-}
 
 @end

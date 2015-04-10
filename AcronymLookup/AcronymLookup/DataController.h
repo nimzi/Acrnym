@@ -6,12 +6,11 @@
 //  Copyright (c) 2015 Paul Agron. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
+@import CoreData;
 
-@class Acronym;
-@class LongForm;
+#import "Acronym.h"
+#import "LongForm.h"
 
 @interface DataController : NSObject
 @property (readonly, strong, nonatomic) NSManagedObjectContext* managedObjectContext;
@@ -31,4 +30,6 @@
                  entityData:(NSDictionary*)entityFields;
 
 -(void)logDebugDescription;
+
+- (NSFetchedResultsController *)makeControllerforAcronyms:(NSError**)error;
 @end

@@ -187,4 +187,35 @@
 }
 
 
+
+#pragma mark - Fetched results controller Factory
+
+- (NSFetchedResultsController *)makeControllerforAcronyms:(NSError* __autoreleasing *)error
+{
+  *error = nil;
+  
+  NSFetchRequest* fetchRequest = [NSFetchRequest new];
+  NSEntityDescription* entity = [NSEntityDescription entityForName:[Acronym entityName]
+                                            inManagedObjectContext:self.managedObjectContext];
+  [fetchRequest setEntity:entity];
+  [fetchRequest setFetchBatchSize:250];
+
+  NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"shortForm" ascending:YES];
+  [fetchRequest setSortDescriptors:@[sortDescriptor]];
+  
+  NSFetchedResultsController *frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                        managedObjectContext:_managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:@"Master"];
+  
+  if (not [frc performFetch:error]) {
+    NSLog(@"Unresolved error %@, %@", *error, [*error userInfo]);
+    return nil;
+  } else {
+    return frc;
+  }
+}
+
+
+
 @end
