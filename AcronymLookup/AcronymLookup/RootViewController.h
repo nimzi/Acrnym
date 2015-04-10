@@ -10,7 +10,7 @@
 
 #import "ProgressManaging.h"
 
-@interface ViewController : UIViewController<ProgressManaging>
+@interface RootViewController : UIViewController<ProgressManaging>
 @property (nonatomic) UINavigationController* navController;
 @property (nonatomic) UITableViewController* tableController;
 @end

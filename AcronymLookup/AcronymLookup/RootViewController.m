@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Paul Agron. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "RootViewController.h"
 #import "RemoteServiceFacade.h"
 #import "DataController.h"
 #import "AcronymBrowser.h"
@@ -15,10 +15,10 @@
 
 
 
-@interface ViewController() <UISearchBarDelegate>
+@interface RootViewController() <UISearchBarDelegate>
 @end
 
-@implementation ViewController {
+@implementation RootViewController {
   UIActivityIndicatorView* _indicator;
 }
 
