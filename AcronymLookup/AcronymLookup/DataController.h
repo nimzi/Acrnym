@@ -21,17 +21,16 @@
 + (instancetype)instance;
 - (void)saveContext;
 
--(void)deleteAcronym:(Acronym*)acm;
+- (void)deleteAcronym:(Acronym*)acm;
 
--(NSArray*) fetchAllAcronyms;
+- (NSArray*) fetchAllAcronyms;
 
--(Acronym*) upsertAcromym:(NSString*)shortForm;
+- (Acronym*) upsertAcromym:(NSString*)shortForm;
 
--(LongForm*) upsertLongFrom:(NSString*)longForm
+- (LongForm*) upsertLongFrom:(NSString*)longForm
                  forAcronym:(Acronym*)acronym
                  entityData:(NSDictionary*)entityFields;
 
--(void)logDebugDescription;
 
 - (NSFetchedResultsController *)makeControllerforAcronyms:(NSError**)error;
 

@@ -96,17 +96,6 @@
   return obj;
 }
 
-//-(void)logDebugDescription {
-//  NSArray* acronyms = [self fetchAllAcronyms];
-//  for (Acronym* acr in acronyms) {
-//    NSLog(@"short form: %@", acr.shortForm);
-//    for (LongForm* lf in acr.longForms) {
-//      NSLog(@"-- long form: %@", lf.longForm);
-//    }
-//  }
-//
-//}
-
 
 #pragma mark - Core Data stack
 
