@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA3AC5F91AD7547C00929E74 /* AcronymBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC5F81AD7547C00929E74 /* AcronymBrowser.m */; };
+		DAB2F73A1AD8B39D00662985 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB2F7391AD8B39D00662985 /* DetailViewController.m */; };
 		DAB302311AD4977200F9C0D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB302301AD4977200F9C0D4 /* main.m */; };
 		DAB302341AD4977200F9C0D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB302331AD4977200F9C0D4 /* AppDelegate.m */; };
 		DAB302371AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB302351AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld */; };
@@ -38,6 +39,8 @@
 		DA3AC5F71AD7547C00929E74 /* AcronymBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AcronymBrowser.h; path = AcronymLookup/AcronymBrowser.h; sourceTree = "<group>"; };
 		DA3AC5F81AD7547C00929E74 /* AcronymBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AcronymBrowser.m; path = AcronymLookup/AcronymBrowser.m; sourceTree = "<group>"; };
 		DA3AC5FB1AD77C7D00929E74 /* ProgressManaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressManaging.h; path = AcronymLookup/ProgressManaging.h; sourceTree = "<group>"; };
+		DAB2F7381AD8B39D00662985 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = AcronymLookup/DetailViewController.h; sourceTree = "<group>"; };
+		DAB2F7391AD8B39D00662985 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = AcronymLookup/DetailViewController.m; sourceTree = "<group>"; };
 		DAB3022B1AD4977200F9C0D4 /* AcronymLookup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AcronymLookup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB3022F1AD4977200F9C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAB302301AD4977200F9C0D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -93,6 +96,8 @@
 				DA3AC5F81AD7547C00929E74 /* AcronymBrowser.m */,
 				DAB302381AD4977200F9C0D4 /* RootViewController.h */,
 				DAB302391AD4977200F9C0D4 /* RootViewController.m */,
+				DAB2F7381AD8B39D00662985 /* DetailViewController.h */,
+				DAB2F7391AD8B39D00662985 /* DetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 				DAB302311AD4977200F9C0D4 /* main.m in Sources */,
 				DAB302731AD5AF9F00F9C0D4 /* DataController.m in Sources */,
 				DAB302621AD5A3C600F9C0D4 /* Stat.m in Sources */,
+				DAB2F73A1AD8B39D00662985 /* DetailViewController.m in Sources */,
 				DAB3023A1AD4977200F9C0D4 /* RootViewController.m in Sources */,
 				DAB3025B1AD4E70900F9C0D4 /* RemoteServiceFacade.m in Sources */,
 				DAB302371AD4977200F9C0D4 /* AcronymLookup.xcdatamodeld in Sources */,

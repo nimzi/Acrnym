@@ -13,7 +13,7 @@
         <attribute name="since" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Acronym" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="Acronym" positionX="-63" positionY="-18" width="128" height="75"/>
         <element name="LongForm" positionX="-54" positionY="-9" width="128" height="73"/>
         <element name="Stat" positionX="-45" positionY="18" width="128" height="73"/>
     </elements>

@@ -177,7 +177,7 @@ static NSError* error(NSInteger code, NSString* message) {
             NSLog(@"%@", [FTHTTPCodes descriptionForCode:responseStatusCode]);
             
             
-            NSError* err = error(101, [FTHTTPCodes descriptionForCode:responseStatusCode]);
+            NSError* err = error(RSF_BadHTTPResponse, [FTHTTPCodes descriptionForCode:responseStatusCode]);
             dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, err); });
             
           } else {
@@ -188,12 +188,12 @@ static NSError* error(NSInteger code, NSString* message) {
             
             if (parsingError or json == nil or not [json isKindOfClass:[NSArray class]]) {
               NSLog(@"WARNING: Inconsistend format");
-              NSError* err = error(102, @"Inconsistend data format");
+              NSError* err = error(RSF_BadData, @"Inconsistend data format");
               dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, err); });
             } else {
               if (not (json.count > 0)) {
                 NSLog(@"WARNING: Empty manifest");
-                NSError* err = error(103, @"Empty manifest");
+                NSError* err = error(RSF_NotFound, @"Empty manifest");
                 dispatch_async(dispatch_get_main_queue(), ^{ callback(nil, nil, err); });
               } else {
                 //NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

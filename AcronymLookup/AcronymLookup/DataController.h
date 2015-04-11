@@ -21,6 +21,8 @@
 + (instancetype)instance;
 - (void)saveContext;
 
+-(void)deleteAcronym:(Acronym*)acm;
+
 -(NSArray*) fetchAllAcronyms;
 
 -(Acronym*) upsertAcromym:(NSString*)shortForm;
@@ -32,4 +34,7 @@
 -(void)logDebugDescription;
 
 - (NSFetchedResultsController *)makeControllerforAcronyms:(NSError**)error;
+
+// LongForm objects sorted by `frequency` and `since` fields
+- (NSArray*)sortedLongFormsForAcronym:(Acronym*)acronym;
 @end

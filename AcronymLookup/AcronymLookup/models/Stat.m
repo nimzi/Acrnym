@@ -16,7 +16,7 @@
 
 -(void)hydrateFromEntityData:(NSDictionary*)dict {
   self.since = dict[@"since"];
-  self.frequency = dict[@"frequency"];
+  self.frequency = dict[@"freq"];
 }
 
 @end

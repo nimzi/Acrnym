@@ -36,8 +36,6 @@
 
 -(NSArray*) fetchAllAcronyms {
   NSFetchRequest* req = [NSFetchRequest fetchRequestWithEntityName:[Acronym entityName]];
-//  NSEntityDescription* entity = [NSEntityDescription entityForName:[Acronym entityName]
-//                                            inManagedObjectContext:_managedObjectContext];
   NSError* err = nil;
   NSArray* res = [_managedObjectContext executeFetchRequest:req error:&err];
   return res;
@@ -98,16 +96,16 @@
   return obj;
 }
 
--(void)logDebugDescription {
-  NSArray* acronyms = [self fetchAllAcronyms];
-  for (Acronym* acr in acronyms) {
-    NSLog(@"short form: %@", acr.shortForm);
-    for (LongForm* lf in acr.longForms) {
-      NSLog(@"-- long form: %@", lf.longForm);
-    }
-  }
-
-}
+//-(void)logDebugDescription {
+//  NSArray* acronyms = [self fetchAllAcronyms];
+//  for (Acronym* acr in acronyms) {
+//    NSLog(@"short form: %@", acr.shortForm);
+//    for (LongForm* lf in acr.longForms) {
+//      NSLog(@"-- long form: %@", lf.longForm);
+//    }
+//  }
+//
+//}
 
 
 #pragma mark - Core Data stack
@@ -146,10 +144,8 @@
     dict[NSLocalizedFailureReasonErrorKey] = failureReason;
     dict[NSUnderlyingErrorKey] = error;
     error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-    // Replace this with code to handle the error appropriately.
-    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+#warning TODO: Improve
     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    abort();
   }
   
   return _persistentStoreCoordinator;
@@ -171,17 +167,18 @@
   return _managedObjectContext;
 }
 
-#pragma mark - Core Data Saving support
+-(void)deleteAcronym:(Acronym*)acm {
+  [_managedObjectContext deleteObject:acm];
+  [self saveContext];
+}
 
 -(void) saveContext {
   NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
   if (managedObjectContext != nil) {
     NSError *error = nil;
     if ([managedObjectContext hasChanges] and not [managedObjectContext save:&error]) {
-      // Replace this implementation with code to handle the error appropriately.
-      // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+#warning TODO: Improve
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-      abort();
     }
   }
 }
@@ -196,7 +193,7 @@
   
   NSFetchRequest* fetchRequest = [NSFetchRequest new];
   NSEntityDescription* entity = [NSEntityDescription entityForName:[Acronym entityName]
-                                            inManagedObjectContext:self.managedObjectContext];
+                                            inManagedObjectContext:_managedObjectContext];
   [fetchRequest setEntity:entity];
   [fetchRequest setFetchBatchSize:250];
 
@@ -209,11 +206,37 @@
                                                                                    cacheName:@"Master"];
   
   if (not [frc performFetch:error]) {
+#warning TODO: Improve
     NSLog(@"Unresolved error %@, %@", *error, [*error userInfo]);
     return nil;
   } else {
     return frc;
   }
+}
+
+#pragma mark - 
+- (NSArray*)sortedLongFormsForAcronym:(Acronym*)acronym {
+  NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[LongForm entityName]];
+  NSSortDescriptor* byFreq = [[NSSortDescriptor alloc] initWithKey:@"frequency" ascending:YES];
+  NSSortDescriptor* bySince = [[NSSortDescriptor alloc] initWithKey:@"since" ascending:YES];
+  
+  NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.acronym = %@", acronym];
+  
+  fetchRequest.sortDescriptors = @[byFreq, bySince];
+  fetchRequest.fetchBatchSize = 250;
+  fetchRequest.predicate = predicate;
+  
+  NSError* error = nil;
+  NSArray* res = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+  
+  if (nil == error) {
+    return res;
+  } else {
+#warning TODO: Improve
+    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    return nil;
+  }
+  
 }
 
 

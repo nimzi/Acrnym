@@ -11,6 +11,7 @@
 #import "RemoteServiceFacade.h"
 #import "DataController.h"
 #import "ProgressManaging.h"
+#import "DetailViewController.h"
 #import <iso646.h>
 
 
@@ -76,9 +77,6 @@
         
       });
     }
-    
-    
-    
   }
   
   return self;
@@ -105,17 +103,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    NSManagedObjectContext *context = [_fetchedResultsController managedObjectContext];
-    [context deleteObject:[_fetchedResultsController objectAtIndexPath:indexPath]];
-    
-    NSError* error = nil;
-    if (![context save:&error]) {
-#warning TODO: Improve
-      // Replace this implementation with code to handle the error appropriately.
-      // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-      abort();
-    }
+    [[DataController instance] deleteAcronym:[_fetchedResultsController objectAtIndexPath:indexPath]];
   }
 }
 
@@ -128,21 +116,25 @@
 #pragma mark -
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-  NSLog(@">> %@", [indexPath description]);
-  [self _installDetailView];
+  Acronym* object = [_fetchedResultsController objectAtIndexPath:indexPath];
+  [self _installDetailView:object];
 }
 
 - (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+  Acronym* object = [_fetchedResultsController objectAtIndexPath:indexPath];
   
+  __weak typeof(self) weakSelf = self;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self _installDetailView];
+    [weakSelf _installDetailView:object];
   });
   
 }
 
--(void) _installDetailView {
-  UITableViewController* controller = [UITableViewController new];
+-(void) _installDetailView:(Acronym*)object {
+  NSArray* longForms = [[DataController instance] sortedLongFormsForAcronym:object];
+  UITableViewController* controller = [[DetailViewController alloc] initWithLongForms:longForms];
+  controller.title = object.shortForm;
   [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -166,7 +158,7 @@
 
 #pragma mark - UISearchBarDelegate
 
-- (void)_upsertAcronym:(NSString*)shortForm withLongForms:(NSArray*)longForms {
+- (Acronym*)_upsertAcronym:(NSString*)shortForm withLongForms:(NSArray*)longForms {
   Acronym* anm = [[DataController instance] upsertAcromym:shortForm];
   for (NSDictionary* dict in longForms) {
     NSString* name = dict[@"lf"];
@@ -175,6 +167,30 @@
   }
   
   [[DataController instance] saveContext];
+  return anm;
+}
+
+-(void)_showSearchTermNotFoundAlert:(NSString*)searchTerm {
+  id title = [NSString stringWithFormat:@"'%@' not found", searchTerm];
+  id msg = @"Sorry, the acronym you were loking for doesn't exist in our database";
+  UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title
+                                                  message:msg
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
+}
+
+
+-(void)_showErrorAlert:(NSError*)error {
+  id title = @"Warning";
+  id msg = [error localizedDescription];
+  UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title
+                                                  message:msg
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -183,16 +199,38 @@
   
   if (searchBar.text.length > 0) {
     [self _startShowingProgress];
-    
     RemoteServiceFacade* service = [RemoteServiceFacade instance];
+    
+    __weak typeof(self) weakSelf = self;
     [service lookupAcronym:searchBar.text
               withCallback: ^(NSString* sf, NSArray *longForms, NSError *error) {
+                typeof(self) strongSelf = weakSelf;
+                NSString* searchTerm = searchBar.text;
                 searchBar.text = @"";
                 
-                if (sf.length > 0)
-                  [self _upsertAcronym:sf withLongForms:longForms];
+                if (sf.length > 0) {
+                  Acronym* acm = [strongSelf _upsertAcronym:sf withLongForms:longForms];
+                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weakSelf _installDetailView:acm];
+                  });
+                } else if (nil != error) {
+                  switch (error.code) {
+                    case RSF_NotFound:
+                      [strongSelf _showSearchTermNotFoundAlert:searchTerm];
+                      break;
+                      
+#warning TODO: Handle cases more granularly
+                      
+                    case RSF_BadData:
+                    case RSF_BadHTTPResponse:
+                    default:
+                      [strongSelf _showErrorAlert:error];
+                      break;
+                  }
+                  
+                }
                 
-                [self _finishShowingProgress];
+                [strongSelf _finishShowingProgress];
               }];
   }
 }

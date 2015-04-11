@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Paul Agron. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 
-@interface DetailViewController : NSViewController
+@import UIKit;
 
+@interface DetailViewController : UITableViewController
+@property (strong, nonatomic) NSArray* longForms;
+-(instancetype)initWithLongForms:(NSArray*)longForms;
 @end
