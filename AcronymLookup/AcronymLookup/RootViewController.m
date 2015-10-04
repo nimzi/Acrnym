@@ -63,6 +63,10 @@
   [self configureActivityIndicator];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+  NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 
 -(IBAction)next:(id)sender {
   [_navController pushViewController:_tableController animated:YES];
